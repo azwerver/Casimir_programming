@@ -1,0 +1,426 @@
+\documentclass[10pt,a4paper,titlepage]{article}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\graphicspath{{./pictures/}}
+\usepackage{titlesec}
+\usepackage{epstopdf}
+\usepackage{array}
+\usepackage{fullpage}
+\usepackage{subfigure} %% enable subfigures %%
+\usepackage{fancyhdr} %% page headers including two decorative lines on both the header and the footer, the latter has 0pt thickness and hence is not visible %%
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{amsmath} %% improve mathematics handling %%
+\usepackage{colortbl} %% enable better looking, coloured tables
+\usepackage{xcolor} %% ensure colors can be loaded %%
+\usepackage{multirow,colortbl}
+\usepackage{multicol}
+\usepackage{parskip} %% set a new paragraph to start after a skipped line instead of an indent %%
+\usepackage{longtable} %% make multipage tables possible %%
+\usepackage{tikz} %% load tikz for a number of graphical enhancements and define the new environments %%
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage[font=footnotesize, labelfont=bf, tableposition=top, singlelinecheck=false]{caption}
+\usepackage{blindtext}
+\usepackage{array,graphicx}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{enumerate}
+
+\newcommand*\rot{\rotatebox{90}}
+\newcommand{\1}{\'{e}\'{e}n}
+
+
+\begin{document}
+
+\section*{Binaire getallen}
+Tot hoeveel kun je tellen op \'{e}\'{e}n hand? Het antwoord lijkt logisch: tot vijf natuurlijk. Echter, dit hangt er maar net vanaf welke regels je hanteert tijdens het tellen. Wanneer we tellen volgens de regels van ons tientallig stelsel, loopt het telbereik van \'{e}\'{e}n hand inderdaad van nul tot en met vijf. Maar wanneer we andere regels maken en bijvoorbeeld afspreken dat het opsteken van je duim een ander getal aangeeft dan het opsteken van je pink, dan breidt je telbereik opeens enorm uit. Het binaire stelsel maakt gebruik van deze telmethode en zodoende is het mogelijk om, met behulp van het binaire stelsel, op \'{e}\'{e}n hand te tellen tot 31!
+
+\subsection*{Binair tellen}
+In het dagelijks leven hanteren we veelal het tientallig stelsel. Dit houdt in dat we getallen in machten van tien defini\"{e}ren. Tabel \ref{tab:tienstelsel} laat zien hoe ons tientallig stelsel precies werkt. We delen getallen op in machten van tien (1, 10, 100) oftewel tien tot de macht nul ($10^0$), tien tot de macht \'{e}\'{e}n ($10^1$), tien tot de macht twee ($10^2$), et cetera. Hoe vaak dit veelvoud van tien in een bepaald getal voorkomt, geven we aan met de getallen 0 tot en met 9. Zo komt in het getal $24$ de $10$ bijvoorbeeld twee keer voor en de $1$ vier keer ($2 * 10^1 + 4 * 10^0$). Wanneer een bepaald getal vaker voorkomt dan 9 keer, schuift het een plaatsje naar links. Dit is als volgt te verklaren: het getal 10 zou geschreven kunnen worden als $10 * 1$, ofwel $10 * 10^0$. Maar $10 * 10^0 = 1*10^{0+1} = 1*10^1$. Kortom, de getallen komen voor in machten van tien en elke macht van tien kan, per getal, maximaal 10 keer voorkomen (0 keer, 1 keer, 2 keer, ..., 9 keer).
+
+
+\begin{table}[h!]
+\caption{Werking van ons tientallig stelsel}
+\begin{tabular}{rrrrr}
+    & $\mathbf{10^3}$   & $\mathbf{10^2}$   & $\mathbf{10^1}$   & $\mathbf{10^0}$\\ 
+    & \textbf{1000}     & \textbf{100}      & \textbf{10    }       & \textbf{1}\\ \hline
+1   & 0                 &   0               &   0               & 1\\
+{\color{red}10} &{\color{red}0} &{\color{red}0} &   {\color{red}0} & {\color{red}10}\\
+10  &   0               &   0               & 1                 & 0\\
+24  &   0               &   0               & 2                 & 4\\
+933 &   0               & 9                 & 3                 & 3\\
+9999& 9                 & 9                 & 9                 & 9\\
+\end{tabular}
+\label{tab:tienstelsel}
+\end{table}
+
+Het binaire, ofwel tweetallig stelsel werkt eigenlijk precies zoals het tientallig stelsel. Alleen in plaats van met machten van tien, werkt het binaire stelsel met machten van twee, dus met $2^0$, $2^1$, $2^2$, et cetera. Dit betekent dat iedere macht van 2 enkel 0 of 1 keer kan voorkomen en een plek dus 0 of 1 kan zijn. Immers als een macht twee keer voorkomt, krijg je $2*2^n = 1*2^{n+1}$ en ben je een macht opgeschoven. Een voorbeeld van het tweetallig stelsel is gegeven in tabel \ref{tab:tweestelsel}.
+
+\begin{table}[h!]
+\caption{Werking van het binaire, of tweetallig stelsel}
+\begin{tabular}{rrrrr}
+    & $\mathbf{2^3}$    & $\mathbf{2^2}$    & $\mathbf{2^1}$    & $\mathbf{2^0}$\\
+    & \textbf{8}        & \textbf{4}        & \textbf{2}        & \textbf{1}\\ \hline
+1   & 0                 &   0               &   0               & 1\\
+{\color{red}2}&  {\color{red}0} &   {\color{red}0}  &   {\color{red}0}  & {\color{red}2}\\
+2   &   0               &   0               & 1                 & 0\\
+6   &   0               & 1                 & 1                 & 0\\
+9   &   1               &   0               & 0                 & 1\\
+15 & 1                  & 1                 & 1                 & 1\\
+\end{tabular}
+\label{tab:tweestelsel}
+\end{table}
+
+Dus als iemand zegt dat je op twee handen maximaal tot tien kunt tellen, dan weet jij wel beter. Tot hoeveel kun je namelijk tellen op twee handen...?
+
+\section*{Opgaven}
+\begin{enumerate}
+\item \textbf{Binair tellen}
+\begin{enumerate}
+\item Wat is het maximale getal uit het tientallig stelsel dat je kunt maken met 24 bits?
+\item Hoeveel bits heb je nodig om het getal 3324 te maken?
+\end{enumerate}
+.
+\item \textbf{Decoderen}\\
+Je hebt een code van 6 bits in het binaire stelsel. Vertaal de volgende codes naar het tientallig stelsel.
+\begin{enumerate}
+\item{Wat is het grootste getal in het tientallig stelsel dat je met 6 bits kunt maken?} %(\textit{63})}
+\item{001001} %(\textit{9})}
+\item{101010} %(\textit{42})}
+\item{011110} %(\textit{30})}
+\item{001111} %(\textit{15})}
+\item{111110}% (\textit{62})}
+\end{enumerate}
+.
+\item \textbf{Coderen}\\
+Nu wil je zelf graag een code maken, schrijf je volgende getallen op in een binair stelsel met 6 bits.
+\begin{enumerate}
+\item{24}%(\textit{011000})}
+\item{33}%(\textit{100001})}
+\item{44}%(\textit{101100})}
+\item{58}%(\textit{111010})}
+\item{Stel, je wilt het getal 910 maken, hoeveel bits heb je dan minimaal nodig?}% (\textit{10 bits})}
+\end{enumerate}
+
+\newpage
+
+\subsection*{Binair rekenen, 1+1=10!}
+Net als met getallen uit het tientallig stelsel, kan er ook met binaire getallen gerekend worden. We zullen hier kort ingaan op optellen en vermenigvuldigen van binaire getallen. Zowel optellen, als vermenigvuldigen lijkt veel op het equivalent van het tientallig stelsel.\\
+
+\textbf{Optellen}\\
+Optellen van binaire getallen gaat het makkelijkst als beide getallen onder elkaar worden geplaatst. Op deze manier kan elke verticale rij worden opgeteld, waarbij het belangrijk is om te onthouden dat: $0+0=0$, $0+1=1$ en $1+0=1$. Verder geldt dat $1+1=0$, waarbij er een $1$ wordt opgeteld bij de aansluitende rechter verticale rij. Voor binaire getallen kun je dus zeggen dat $1+1=10$!\\
+
+\textit{Voorbeeld:}\\
+$ \textrm{    }110$\\
+$ \textrm{    }100$\\
+------ +\\
+$1010$\\
+
+NB: Ga na dat dit klopt: $6+4=10$. \\
+
+\textbf{Vermenigvuldigen}\\
+Het vermenigvuldigen van twee binaire getallen kan worden opgedeeld in twee stappen: het vermenigvuldigen en het optellen van de uitkomsten. Voor stap 1 is het, net als bij het vermenigvuldigen in het tientallig stelsel, praktisch om de twee te vermenigvuldigen binaire getallen onder elkaar te zetten. Vervolgens kan het meest rechtse cijfer van het onderste getal met het gehele bovenste getal worden vermenigvuldigd. Dit gaat volgens de regel $0*x=0$, $1*x=x$. Daarna kan het volgende cijfer met het gehele bovenste getal worden vermenigvuldigd, vergeet hierbij niet rechts een nul toe te voegen, omdat je nu een macht bent opgeschoven in het onderste getal. En zo ga je verder totdat alle cijfers van het onderste getal met het bovenste getal zijn vermenigvuldigd. Dan volgt stap 2: wanneer alle cijfers uit het onderste getal met het bovenste getal vermeniguldigd zijn, kunnen de uitkomsten worden opgeteld volgens de optelregels van binaire getallen.\\
+
+\textit{Voorbeeld:}\\
+\textbf{stap 1:}\\
+$\textrm{ }\textrm{ }110$\\
+$\textrm{ }\textrm{ }100$\\
+------ *\\
+$\textrm{ }\textrm{ }000$\\
+$\textrm{    }0000$\\
+$ 11000$\\
+
+\textbf{stap 2:}\\
+$\textrm{ }\textrm{ }000$\\
+$\textrm{ }0000$\\
+$11000$\\
+------ +\\
+$11000$
+ 
+NB: Ga na dat dit klopt: $6*4=24$.\\
+
+
+\newpage
+\section*{Opgaven}
+
+\item \textbf{Boodschap}\\
+We kunnen het alfabet omschrijven naar getallen (zie hieronder). Op dit manier kunnen we woorden coderen.
+
+\begin{table}[h!]
+\begin{tabular}{|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
+\hline
+\textbf{A}&\textbf{B}&\textbf{C}&\textbf{D}&\textbf{E}&\textbf{F}&\textbf{G}&\textbf{H}&\textbf{I}&\textbf{J}&\textbf{K} &\textbf{L} &\textbf{M}&\textbf{N}&\textbf{O}&\textbf{P}&\textbf{Q}&\textbf{R}&\textbf{S}&\textbf{T}&\textbf{U}&\textbf{V}\\ \hline
+0&1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21\\ \hline\hline
+\textbf{W}& \textbf{X}&\textbf{IJ}&\textbf{Z}\\ \cline{1-4}
+22&23&24&25\\ \cline{1-4}
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+\item{Codeer je eigen naam en geboortedatum en schrijf het binair op (zie het voorbeeld hieronder).\\
+\textit{Voorbeeld}\\
+Stel, je heet Piet, dan zou je code er als volgt uitzien:}
+
+\begin{table}[h!]
+\begin{tabular}{c|rrrrr}
+    & $\mathbf{2^4}$&$\mathbf{2^3}$ & $\mathbf{2^2}$    & $\mathbf{2^1}$    & $\mathbf{2^0}$\\ \hline
+P   &0              & 1             & 1             & 1             & 1\\
+I   & 0             & 1             & 0             & 0             & 0\\
+E   & 0             & 0             & 1             & 0             & 1\\
+T   & 1             & 0             & 0             & 1             & 1\\
+\end{tabular}
+\end{table}
+
+\item{Ontcijfer het volgende woord:}
+\begin{table}[h!]
+\begin{tabular}{c|rrrrr}
+    & $\mathbf{2^4}$&$\mathbf{2^3}$ & $\mathbf{2^2}$    & $\mathbf{2^1}$    & $\mathbf{2^0}$\\ \hline
+   &0              & 0             & 1             & 1             & 0\\
+   & 0             & 0             & 1             & 0             & 0\\
+   & 0             & 0             & 1             & 1             & 1\\
+   & 0             & 0             & 1             & 0             & 0 \\
+    & 0             & 1             & 0             & 0             & 0\\
+   & 0             & 1             & 1             & 0             & 0\\
+\end{tabular}
+\end{table}
+
+
+\end{enumerate}
+.
+\item \textbf{Vermenigvuldigen}\\
+Vermenigvuldig de volgende binaire getallen:
+
+\begin{enumerate}
+\item 010 en 110
+\item 101 en 011
+\item 111 en 111
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section*{Klassieke bits}
+Voordat we ons op kwantumcomputers gaan focussen zullen we eerst kijken hoe een klassieke computer werkt. Een computer kan informatie opslaan in de vorm van bits. Een bit kan twee mogelijk toestanden hebben, `0' en `1'; bits zijn dus binair. Je zou elk bit kunnen vergelijken met een lampje dat aan, of uit staat. De computer leest de lampjes supersnel uit en kan zo de informatie `lezen' en verwerken. De combinatie van alle lampjes aan en uit geeft dus informatie weer. In de huidige computerchips worden bits veelal gerepresenteerd door kleine spanning met een hoger (`1') en een lager (`0') niveau. Maar bits zijn op veel verschillende manieren te maken. Zo werkt een cd bijvoorbeeld met wel en geen putjes in het cd oppervlak en werken sommige computer geheugens met met een magneetveld in een bepaalde richting. In het geval van digitale informatie spreken we vaak over \emph{bytes} in plaats van bits. Een byte is een verzameling van acht bits.
+
+\section*{Logische poorten}
+Naast dat een computer informatie moet kunnen lezen, moet hij informatie ook kunnen interpreteren en verwerken. Dit doet een computer door enen en nullen te draaien, dus met bitflips. Een voorbeeld hiervan is het inloggen op je computer. Je zou je kunnen voorstellen dat er, om toegang te krijgen tot je computer, een bepaald bit van waarde moet wisselen als zowel je gebruikersnaam als je wachtwoord correct zijn ingevoerd, bijvoorbeeld van `0' naar `1'. Dergelijke verwerkingsprocessen in de computer worden gedaan met behulp van \emph{logic gates}, ookwel \emph{logische poorten} genoemd. Aan de hand van een analyse van de combinatie van input bits, wordt in de logische poort de waarde van het `output bit' bepaald. Door een combinatie van verschillende logische poorten te gebruiken, kan een computer rekensommen maken en analyses uitvoeren.
+
+ 
+Logische poorten werken via de booleaanse logica, wat wil zeggen dat de uitkomst maar twee waarden kan aannemen. De uitkomst van een poort is dus binair; waar, of onwaar; `0' of `1'.   Logische poorten kunnen daarom \'{e}\'{e}n of meer ingangen hebben en hebben altijd maar \'{e}\'{e}n uitvoerwaarde. \\
+
+
+\subsection*{Waarheidstabellen}
+Er bestaan verschillende soorten logische poorten. Hier zullen we poorten behandelen met \'{e}\'{e}n of twee invoerwaarden. Om de werking van een logische poort te analyseren, wordt vaak een \emph{waarheidstabel} gebruikt. Een waarheidstabel geeft de waarden van de verschillende in- en outputs van een poort weer in een tabel, waarbij de input links staat en de output aan de rechterkant. Omdat we het in dit geval natuurlijk over computers hebben, wordt de waarde `onwaar' gerepresenteerd door een bit in 0 en een bit in 1 wordt geassocieerd met de waarde `waar'. Je kunt dit wederom vergelijken met een lampje dat uit staat (bij onwaar) of aan (bij waar).\\
+
+
+\subsection*{Verschillende poorten}
+Zoals gezegd zullen we poorten met \'{e}\'{e}n of twee inputs behandelen. Een poort met \'{e}\'{e}n input heeft twee mogelijke combinaties van invoerwaarden (0 of 1), een poort met twee inputs heeft er vier (00, 01, 10, 11). Hieronder worden, met behulp van een waarheidstabel, de werking van een aantal logische poorten behandeld. De offici'{e}le naam van de poort staat steeds aan de linkerkant. Bovenaan de tabel staat het logische teken dat wordt gebruikt om de poort weer te geven in berekeningen.
+
+\subsubsection*{NIET-poort}
+Een niet poort is een logische poort met \'{e}\'{e}n inputwaarde. De functie van de NIET-poort is het `flippen' van de input. Dus bij een invoer van 0, wordt de ouput 1 en andersom, zie de waarheidstabel hieronder.
+
+\subsubsection*{NIET-A-poort}
+De NIET-A-poort is een poort met twee invoerbits. Het is in feit een NIET-poort voor een van beide bits. Dus de poort geeft een `waar' (1) terug als het eerste bit (bit A) onwaar, ofwel 0 is en geeft een 1 terug als A 0 is. De waarde van B maakt hierbij niet uit. Een NIET-B-poort geeft dezelfde rotatie, alleen dan vindt de analyse plaats op het tweede bit.
+
+\begin{tabular*}{\textwidth}{c c}
+\multicolumn{1}{p{7cm}}{}&\multicolumn{1}{p{7cm}}{}\\
+    \begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c||c|}
+\hline
+\multicolumn{3}{c}{{\cellcolor[gray]{0.09}}{\color{white}$\neg$ p}}\\
+&\multicolumn{1}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in}}$               & {\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-3}
+&0                      & 1\\ \cline{2-3}
+\multirow{-5}{*}{\rot{{\tiny Logische negatie}}}    &1                          & 0\\ \cline{2-3}
+\end{tabular}
+    &
+    \begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}$\neg$ p}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 1\\ \cline{2-4}
+&0      & 1                 & 1\\ \cline{2-4}
+&1      & 0                 & 0\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische NIET-A}}} &1      & 1                 & 0\\ \cline{2-4}
+\end{tabular}
+\end{tabular*}
+
+\subsubsection*{OF-poort}
+De OF-poort, ookwel \textit{logische disjnuctie}, vergelijkt beide inkomende bits en geeft een `waar' terug als tenminste \1 van beide bits waar is.
+
+\subsubsection*{EN-poort}
+De EN-poort, ofwel de \textit{logische conjunctie} vergelijkt beide inputwaarden en geeft alleen een `waar' terug als beide input bits waar zijn.
+
+\begin{tabular*}{\textwidth}{c c}
+\multicolumn{1}{p{7cm}}{}&\multicolumn{1}{p{7cm}}{}\\
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p OF q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 0\\ \cline{2-4}
+&0      & 1                 & 1\\ \cline{2-4}
+&1      & 0                 & 1\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische Disjunctie}}} &1      & 1                 & 1\\ \cline{2-4}
+\end{tabular}
+&
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p EN q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 0\\ \cline{2-4}
+&0      & 1                 & 0\\ \cline{2-4}
+&1      & 0                 & 0\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische Conjunctie}}} &1      & 1                 & 1\\ \cline{2-4}
+\end{tabular}
+\end{tabular*}
+
+\newpage
+
+\subsubsection*{NOF-poort}
+De NOF-poort, ookwel de NIET-OF-poort, geeft de tegenovergestelde waarden van een OF-poort: de NOF-poort geeft dus alleen een `waar' als geen van beide input bits 1 is. Je zou de poort daarom kunnen opdelen in twee operaties, waarbij er eerst een OF-poort en daarna een NIET-poort op de bits wordt toegepast. 
+
+\subsubsection*{Dan-en-slechts-dan-poort}
+De 'dan en slechts dan'-poort, ofwel de logische equaliteit, geeft de waarde `waar' als output dan en slechts dan als beide input waarden aan elkaar gelijk zijn. Zijn de inputwaarden ongelijk, bijvoorbeeld 0 en 1, dan is de output 0. 
+
+\begin{tabular*}{\textwidth}{c c}
+\multicolumn{1}{p{7cm}}{}&\multicolumn{1}{p{7cm}}{}\\
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p NOF q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 1\\ \cline{2-4}
+&0      & 1                 & 0\\ \cline{2-4}
+&1      & 0                 & 0\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische NOF}}}    &1      & 1                 & 0\\ \cline{2-4}
+\end{tabular}
+&
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p = q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 1\\ \cline{2-4}
+&0      & 1                 & 0\\ \cline{2-4}
+&1      & 0                 & 0\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische Equaliteit}}} &1      & 1                 & 1\\ \cline{2-4}
+\end{tabular}
+\end{tabular*}
+
+\subsubsection*{Als-dan-poort}
+De `als-dan-poort' zegt eigenlijk letterlijk: `als de eerste waarde waar is, dan is de tweede waarde dat ook', waarheid van A impliceert dus de waarheid van B. Wanneer deze implicatie klopt, dan geeft de poort de output 1, zo niet dan is de ouput 0. Let op! Wanneer de waarde van bit A 0 is, dan kan de implicatie nog steeds kloppen. Vandaar dat de output dan ook 1 is.
+
+\subsubsection*{XOR-poort}
+De logische disjunctie wordt ook wel de XOR-poort genoemd, waarbij de `X' staat voor `exclusief'. Deze exclusieve OF-poort geeft alleen een 1 als output, wanneer of bit A, of bit B waar is. Wanneer beide inputbits waar zijn, of onwaar, dan is de ouput 0.
+
+\begin{tabular*}{\textwidth}{c c}
+\multicolumn{1}{p{7cm}}{}&\multicolumn{1}{p{7cm}}{}\\
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p --> q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 1\\ \cline{2-4}
+&0      & 1                 & 1\\ \cline{2-4}
+&1      & 0                 & 0\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Logische Implicatie}}} &1      & 1                 & 1\\ \cline{2-4}
+\end{tabular}
+&
+\begin{tabular}{|>{\columncolor[gray]{0.09}}>{\color{white}}c|c|c||c|}
+\hline
+\multicolumn{4}{c}{{\cellcolor[gray]{0.09}}{\color{white}p $\neq$ q}}\\
+&\multicolumn{2}{c}{{\cellcolor[gray]{0.7}}Invoer}  &{\cellcolor[gray]{0.7}}Uitvoer\\
+&{\cellcolor[gray]{0.9}}$b_{\mathrm{in,A}}$     & {\cellcolor[gray]{0.9}}$b_{\mathrm{in,B}}$ &{\cellcolor[gray]{0.9}}$b_{\mathrm{uit}}$\\ \cline{2-4}
+&0      & 0                 & 0\\ \cline{2-4}
+&0      & 1                 & 1\\ \cline{2-4}
+&1      & 0                 & 1\\ \cline{2-4}
+\multirow{-6}{*}{\rot{{\tiny Exclusieve Disjunctie}}}   &1      & 1                 & 0\\ \cline{2-4}
+\end{tabular}
+\end{tabular*}
+
+
+
+
+\newpage
+
+\section*{Opgaven}
+
+
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item \textbf{Uitkomst van logische poorten}\\
+Wat is de uitkomst van de volgende combinatie van invoer en logische poorten, 0 of 1?
+\begin{enumerate}
+\item 0 en 1 op een EN-poort
+\item 0 en 1 op een OF-poort
+\item 1 en 1 op een logische implicatie
+\item 0 en 0 op een NEN-poort
+\item 1 en 0 op een XOR-poort en dan een NIET-poort
+\item 1 en 1 op een EN-poort, dan op een XOR-poort met een 0 en dan een NIET-poort
+\end{enumerate}
+
+\item Een NOF-poort en een NEN-poort zijn allebei combinaties van twee poorten. Welke poorten? Maakt het uit welke van deze twee poorten je eerst toepast? Waarom?
+\item Welke twee hierboven behandelde logische poorten kun je combineren om de XOR-poort te krijgen?
+\item Maak een waarheidstabel voor een exclusieve OF-poort, een exclusieve NOF-poort en een dan-en-slechts-dan-poort. Wat zie je?
+
+\item \textbf{Je eigen computer}\\
+Stel, je hebt tien lampjes. Deze lampjes representeren bits van je eigen mini computer. Je kunt een aantal operaties met deze minicomputer doen (om te rekenen kun je de computer als bits van nullen en enen opschrijven).
+\begin{enumerate}
+\item Hoeveel bits heeft deze computer? En hoeveel bytes?
+\item Hoeveel verschillende toestanden kunnen deze vijf lampjes vormen?
+\item Schrijf je initialen (alleen eerste letter voornaam en eerste letter achternaam) op je `lampjescomputer' (zie het alfabet van hiervoor)
+
+\end{enumerate}
+\item Maak een logische schakeling met zes inputs van 1 bit en 1 output bit. Wanneer de input precies om en om 0 en 1 is (of 1 en 0), geeft de output 1, in alle andere gevallen geeft de output 0.
+\item Zie onderstaand circuit voor twee inputs van elk precies 1 bit groot. Test verschillende invoerwaarden op dit circuit en probeer er zo achter te komen wat het circuitje doet. Hint: schrijf de input en output ook om naar het tientallig stelsel.
+
+
+\item Kun je een circuit bedenken met twee inputs van twee bits en een output van drie bits dat de som van de twee invoerwaarden als uitvoer geeft?
+\item De NEN-poort is een universele poort. Dit betekent dat je andere poorten kunt maken (OF, EN, etc) door slechts NEN-poorten op een bepaalde manier te schakelen. Maak een schakeling die een EN-poort representeert met enkel NEN-poorten.
+\item Maak nu een OF-poort door enkel NEN-poorten te gebruiken.
+\end{enumerate}
+
+
+%\textbf{BONUS}\\
+%Maak een systeem met bits en gates dat checkt of een ingevoerde gebruikersnaam en wachtwoord in een computer (beide max %8 tekens) kloppen.\\
+%\textit{Hint: begin met kijken of elke apart ingevoerde letter klopt. Ga vervolgens na of het hele woord klopt en ga net zolang door tot je uiteindelijk 1 bit overhoudt}.
+
+
+
+
+
+%\section{Extra Stuff - niet in de final versie}
+
+%\begin{itemize}
+%\item om een getal in het tientallige stelsel om te zetten naar een getal in het tweetallige stelsel, deel je het getal steeds door twee. De rest die je overhoudt (0 of 1) schrijf je van rechts naar links op. E.g. 517:\\
+
+%\begin{table}[h!]
+%\begin{tabular}{rrrrrrr}
+%517/2 &=& 25& rest 1 &-->& 1\\
+%258/2 &=& 129& rest 0 &-->& 01\\
+%128/2 &=& 64& rest 1 &-->& 101\\
+%64/2 &=& 32& rest 0 &-->& 0101\\
+%32/2 &=& 16& rest 0 &-->& 00101\\
+%16/2 &=& 8& rest 0 &-->& 000101\\
+%8/2 &=& 4& rest 0 &-->& 0000101\\
+%4/2 &=& 2& rest 0 &-->& 00000101\\
+%2/2 &=& 1& rest 1 &-->& 000000101\\
+%1/2 &=& 0& rest 1 &-->& 1000000101\\
+%\end{tabular}
+%\end{table}
+
+%\end{itemize}
+
+
+
+
+
+
+
+\end{document}
